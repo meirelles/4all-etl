@@ -1,0 +1,17 @@
+{
+    "4all_sample_etl_config": {
+        "redis_cache_conn": "redis_default",
+        "postgres_main_conn": "postgres_default",
+        "intermediate": {
+            "batch_sz": 250,
+            "expire_time": 3600
+        },
+        "google_maps_api": {
+            "keys": [
+                "w19lia_ZeDK0tZmCgw1TRy9-v7t00NoGRratrcBySazIA"
+            ],
+            "expire_time": 2592000,
+            "max_concurrent": 40
+        }
+    }
+}

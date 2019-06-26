@@ -1,0 +1,36 @@
+version: '2.1'
+services:
+    redis:
+        image: redis:5.0.5-alpine
+
+    postgres:
+        image: postgres:10.9-alpine
+        environment:
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+        volumes:
+            - ./airflow/postgres:/docker-entrypoint-initdb.d
+
+    webserver:
+        image: puckel/docker-airflow:1.10.3
+        restart: always
+        depends_on:
+            - postgres
+        environment:
+            - LOAD_EX=n
+            - FERNET_KEY=Cw8_V7j8yiLNHZPyH_K11Y7HPKD8chaZ4AxMehAu4yE=
+            - EXECUTOR=Local
+        volumes:
+            - ./airflow/dags:/usr/local/airflow/dags
+            - ./airflow/sample-dataset:/usr/local/airflow/sample-dataset
+            - ./airflow/requirements.txt:/requirements.txt
+            - ./airflow/setup:/usr/local/airflow/setup
+        ports:
+            - "8080:8080"
+        command: /usr/local/airflow/setup/webserver.sh
+        healthcheck:
+            test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+            interval: 30s
+            timeout: 30s
+            retries: 3
