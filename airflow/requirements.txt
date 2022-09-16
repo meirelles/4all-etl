@@ -1,4 +1,4 @@
-apache-airflow==1.10.3
+apache-airflow==2.3.4
 redis==3.2.1
 apache-airflow[postgres,jdbc,redis]==1.10.3
 requests-futures==1.0.0
